@@ -1,0 +1,26 @@
+{
+  "name": "jest-typescript-webdriver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "@types/chai": "^4.2.11",
+    "@types/jest": "^26.0.0",
+    "@types/selenium-webdriver": "^4.0.9",
+    "selenium-webdriver": "^4.0.0-alpha.7",
+    "ts-jest": "^26.1.0",
+    "typescript": "^3.9.5"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chromedriver": "^83.0.0",
+    "geckodriver": "^1.19.1",
+    "jest": "^26.0.1"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
