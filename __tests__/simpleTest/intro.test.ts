@@ -1,7 +1,10 @@
+const chromedriverPath = require('chromedriver').path
 import { Builder, Capabilities, By, until } from 'selenium-webdriver'
+import * as chrome from 'selenium-webdriver/chrome'
 
 describe('google', () => {
-
+    const service = new chrome.ServiceBuilder(chromedriverPath).build();
+    chrome.setDefaultService(service)
     const driver = new Builder()
         .withCapabilities(Capabilities.chrome())
         .build()
