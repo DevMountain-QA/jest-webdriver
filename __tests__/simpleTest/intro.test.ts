@@ -1,7 +1,7 @@
+const chromedriver = require('chromedriver')
 import { Builder, Capabilities, By, until } from 'selenium-webdriver'
 
 describe('google', () => {
-
     const driver = new Builder()
         .withCapabilities(Capabilities.chrome())
         .build()
