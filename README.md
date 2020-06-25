@@ -4,6 +4,8 @@
 
 We will be creating a simple test using Selenium Webdriver, with Jest as our test runner, and TypeScript (basically "typed" JavaScript) as our language. This should show you how well your skills you've picked up using NightwatchJS will transfer to other automation stacks!
 
+Steps 1-3 we will work on as a class. [Step 4](##-Step-4) is where your self-guided assignment starts!
+
 ## Step 1
 
 Setup
@@ -38,7 +40,7 @@ We're going to run through this as a class, but here is the summary.
 
 <summary> <code> imdb.test.ts </code> </summary>
 
-```javascript
+```typescript
 //getting our driver builder - other dependencies are automatically imported if we use "tab" completion
 import getDriver from './driverBuilder'
 import { By, until } from 'selenium-webdriver'
@@ -103,7 +105,7 @@ describe('IMDb searching and movie pages', () => {
 
 <summary> <code> driverBuilder.ts </code> </summary>
 
-```javascript
+```typescript
 const chromedriver = require('chromedriver') //this makes chromedriver avaiable to our tests
 const geckodriver = require('geckodriver') //same for geckodriver
 import { Builder, Capabilities } from "selenium-webdriver";
@@ -154,7 +156,7 @@ Your assignment will be to take this stack and add a new test file; you can make
 1. Open the most popular channel listed in "Recommended Channels" on the left of the page.
 2. Verify that the channel that opens is the channel you expected (it has the same title)
 
-If you want a bit more of a challenge, try the following test!
+If you want a bit more of a challenge, try the following test! (This is a stretch goal, mind you!)
 
 1. Open the "Browse" page
 2. Filter by the tag "Let's Play"
@@ -167,7 +169,7 @@ You can see example tests here - but keep in mind that they are not well comment
 
 <summary> <code> twitch.test.ts </code> </summary>
 
-```javascript
+```typescript
 import getDriver from './driverBuilder'
 import { WebDriver, By, until, WebElement } from 'selenium-webdriver'
 
