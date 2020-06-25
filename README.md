@@ -4,6 +4,10 @@
 
 We will be creating a simple test using Selenium Webdriver, with Jest as our test runner, and TypeScript (basically "typed" JavaScript) as our language. This should show you how well your skills you've picked up using NightwatchJS will transfer to other automation stacks!
 
+Steps 1-4 we will work on as a class. [Step 5](#step-5) is where your self-guided assignment starts!
+
+If you're looking for opportunities to learn more, check out the [Resources](#resources) section!
+
 ## Step 1
 
 Setup
@@ -38,7 +42,7 @@ We're going to run through this as a class, but here is the summary.
 
 <summary> <code> imdb.test.ts </code> </summary>
 
-```javascript
+```typescript
 //getting our driver builder - other dependencies are automatically imported if we use "tab" completion
 import getDriver from './driverBuilder'
 import { By, until } from 'selenium-webdriver'
@@ -103,7 +107,7 @@ describe('IMDb searching and movie pages', () => {
 
 <summary> <code> driverBuilder.ts </code> </summary>
 
-```javascript
+```typescript
 const chromedriver = require('chromedriver') //this makes chromedriver avaiable to our tests
 const geckodriver = require('geckodriver') //same for geckodriver
 import { Builder, Capabilities } from "selenium-webdriver";
@@ -134,12 +138,124 @@ export default function getDriver(browser: string) { //we're taking `browser`, w
 
 </details>
 
-## Step 3
+## Step 4
 
 ### Instructions
 
 - You can run all your tests with the command `jest`, but that will also run the `intro.test.ts` file.
 - You can run JUST the new test by using the command `jest imdb` - it will find the test file that matches `imdb` and go from there!
+
+## Step 5
+
+### Summary
+
+Now it's time for you to shine! If you're wanting to start fresh from a working version of the code in Step 2, you can checkout the branch `solution`. If you want to see an example of Page Objects working in this stack (it's pretty cool!) take a look at the branch `pom-example`. But, it's time to move on to bigger things.
+
+### Instructions
+
+Your assignment will be to take this stack and add a new test file; you can make a new folder, or just add a new test to the test folder... `twitch.test.ts` where you will need to go to (twitch.tv)[https://www.twitch.tv/] and automate the following test:
+
+1. Open the most popular channel listed in "Recommended Channels" on the left of the page.
+2. Verify that the channel that opens is the channel you expected (it has the same title)
+
+If you want a bit more of a challenge, try the following test! (This is a stretch goal, mind you!)
+
+1. Open the "Browse" page
+2. Filter by the tag "Let's Play"
+3. Sort by "Viewers (High to Low)"
+4. Launch the most popular "Let's Play" stream
+
+You can see example tests here - but keep in mind that they are not well commented, as these are intended for reference, and you are intended to complete these with much less guidance. It's also worth noting that the tests pass in Chrome, but fail in Firefox... Bonus points if you fix that in your version of the test! Their drivers handle loading and 'waiting' *slightly* differently from each other. Fun, huh?
+
+<details>
+
+<summary> <code> twitch.test.ts </code> </summary>
+
+```typescript
+import getDriver from './driverBuilder'
+import { WebDriver, By, until, WebElement } from 'selenium-webdriver'
+
+describe('Twitch TV', ()=>{
+    const driver:WebDriver = getDriver('chrome')
+    const popularChannels:By = By.css('[data-a-target="side-nav-title"]')
+    const menuOptionBrowse:By = By.css('a[data-test-selector="top-nav__browse-link"]')
+    const tagSearchBar:By = By.css('input[placeholder="Search Tags"]')
+    const letsPlayOption:By = By.css('[title="For streams with an emphasis on the production of video documenting the playthrough of a game"]')
+    const letsPlayTag:By = By.css('button[data-a-target="form-tag-Let\'s Play"]')
+    const currentSort:By = By.xpath("//button[@data-a-target='browse-sort-menu']/div/div/div[contains(@class, 'tw-flex')]")
+    const sortSelectToggle:By = By.className('tw-core-button-label--dropdown')
+    const sortViewerCount:By = By.css('[data-test-selector="directory-channel-sort-VIEWER_COUNT"]')
+    const firstChannel:By = By.xpath('//div[@data-target="directory-first-item"]//h3')
+    const channelInfo:By = By.className('channel-info-content')
+    const channelTitle:By = By.tagName('h1')
+
+    beforeEach(async()=>{
+        driver.get('https://www.twitch.tv')
+        await driver.wait(until.elementLocated(menuOptionBrowse))
+    })
+
+    it('logs the current most popular channel, and makes sure the title matches', async()=>{
+        await driver.wait(until.elementsLocated(popularChannels))
+        const channels: WebElement[] = await driver.findElements(popularChannels)
+        const channelName = await channels[0].getText()
+        await channels[0].click()
+        await driver.wait(until.elementLocated(channelInfo))
+        await setTimeout(()=>{}, 1000) //probably not the cleanest option, but it works :)
+        expect(channelName).toEqual(await (await driver.findElement(channelTitle)).getText())
+    })
+
+    it('launches the most popular "Let\'s Play" stream', async()=>{
+        await (await driver.findElement(menuOptionBrowse)).click()
+        await driver.wait(until.elementLocated(tagSearchBar))
+        await (await driver.findElement(tagSearchBar)).sendKeys("Let's Play")
+        await driver.wait(until.elementLocated(letsPlayOption))
+        await (await driver.findElement(letsPlayOption)).click()
+        await driver.wait(until.elementLocated(letsPlayTag))
+        await driver.wait(until.elementLocated(firstChannel))
+        await (await driver.findElement(sortSelectToggle)).click()
+        await driver.wait(until.elementLocated(sortViewerCount))
+        await (await driver.findElement(sortViewerCount)).click()
+        await driver.wait(until.elementTextContains(await driver.findElement(currentSort), "High to Low"))
+        await (await driver.findElement(firstChannel)).click()
+        await driver.wait(until.elementLocated(channelInfo))
+        console.log(`The most popular channel right now tagged "Let's Play" is: ${await (await driver.findElement(channelTitle)).getText()}`)
+    })
+
+    afterAll(async()=>{
+        driver.quit()
+    })
+})
+```
+
+</details>
+
+## Black Diamond Challenge
+
+For a real challenge, try this out:
+
+- Pick a popular site, like Twitch, Amazon, Buzzfeed, etc.
+- Choose a use case of the site (i.e. finding a streamer for a game, shopping for clothes, taking a poll)
+- Following the Page Object Model, create all the pages you'd need for that use case
+- Automate an E2E (end to end) test following that use case
+
+## Resources
+
+For this project, we used the following tools
+- [Jest](https://jestjs.io/) - a JavaScript Testing Framework built by the folks at Facebook, it's awesome.
+- [selenium-webdriver](https://www.selenium.dev/selenium/docs/api/javascript/module/selenium-webdriver/) - from the team at the Selenium Project, it's the webdriver interface for NodeJS projects.
+- [TypeScript](https://www.typescriptlang.org/) - A "superset" of JavaScript that will compile to JavaScript, it enforces types and makes fun stuff like Page Objects a lot easier!
+
+While this stack uses Selenium Webdriver directly, there are a couple other cool libraries to check out. Note, both of these options are based on JavaScript or TypeScript, but you can find similar tools to build out your automation in Java, Python, C#, or any number of other languages!
+
+### [WebdriverIO](https://webdriver.io/)
+
+- Based around Selenium Webdriver, this is a well built, well packaged library to write your automation with.
+
+### [Cypress](https://www.cypress.io/)
+
+- This ones up and coming in the industry! Cypress is really fast and flexible within it's space; but for now it only tests Chrome directly. It is a unique tool, built from scratch and NOT based around Selenium.
+
+For more options, look to Google! You can find tutorials for just about anything!
 
 ## Contributions
 
