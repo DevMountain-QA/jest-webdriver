@@ -240,6 +240,11 @@ For a real challenge, try this out:
 
 ## Resources
 
+For this project, we used the following tools
+- [Jest](https://jestjs.io/) - a JavaScript Testing Framework built by the folks at Facebook, it's awesome.
+- [selenium-webdriver](https://www.selenium.dev/selenium/docs/api/javascript/module/selenium-webdriver/) - from the team at the Selenium Project, it's the webdriver interface for NodeJS projects.
+- [TypeScript](https://www.typescriptlang.org/) - A "superset" of JavaScript that will compile to JavaScript, it enforces types and makes fun stuff like Page Objects a lot easier!
+
 While this stack uses Selenium Webdriver directly, there are a couple other cool libraries to check out. Note, both of these options are based on JavaScript or TypeScript, but you can find similar tools to build out your automation in Java, Python, C#, or any number of other languages!
 
 ### [WebdriverIO](https://webdriver.io/)
