@@ -6,6 +6,8 @@ We will be creating a simple test using Selenium Webdriver, with Jest as our tes
 
 Steps 1-4 we will work on as a class. [Step 5](#step-5) is where your self-guided assignment starts!
 
+If you're looking for opportunities to learn more, check out the [Resources](#resources) section!
+
 ## Step 1
 
 Setup
@@ -237,6 +239,18 @@ For a real challenge, try this out:
 - Automate an E2E (end to end) test following that use case
 
 ## Resources
+
+While this stack uses Selenium Webdriver directly, there are a couple other cool libraries to check out. Note, both of these options are based on JavaScript or TypeScript, but you can find similar tools to build out your automation in Java, Python, C#, or any number of other languages!
+
+### [WebdriverIO](https://webdriver.io/)
+
+- Based around Selenium Webdriver, this is a well built, well packaged library to write your automation with.
+
+### [Cypress](https://www.cypress.io/)
+
+- This ones up and coming in the industry! Cypress is really fast and flexible within it's space; but for now it only tests Chrome directly. It is a unique tool, built from scratch and NOT based around Selenium.
+
+For more options, look to Google! You can find tutorials for just about anything!
 
 ## Contributions
 
