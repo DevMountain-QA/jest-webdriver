@@ -153,7 +153,7 @@ Now it's time for you to shine! If you're wanting to start fresh from a working 
 
 ### Instructions
 
-Your assignment will be to take this stack and add a new test file; you can make a new folder, or just add a new test to the test folder... `twitch.test.ts` where you will need to go to (TwitchTV)[https://www.twitch.tv/] and automate the following test:
+Your assignment will be to take this stack and add a new test file; you can make a new folder, or just add a new test to the test folder... `twitch.test.ts` where you will need to go to [twitch.tv](https://www.twitch.tv/) and automate the following test:
 
 1. Open the most popular channel listed in "Recommended Channels" on the left of the page.
 2. Verify that the channel that opens is the channel you expected (it has the same title)
