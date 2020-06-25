@@ -4,7 +4,7 @@
 
 We will be creating a simple test using Selenium Webdriver, with Jest as our test runner, and TypeScript (basically "typed" JavaScript) as our language. This should show you how well your skills you've picked up using NightwatchJS will transfer to other automation stacks!
 
-Steps 1-3 we will work on as a class. [Step 4](##-Step-4) is where your self-guided assignment starts!
+Steps 1-3 we will work on as a class. [Step 4](#-step-4) is where your self-guided assignment starts!
 
 ## Step 1
 
