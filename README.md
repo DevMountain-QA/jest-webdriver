@@ -4,7 +4,7 @@
 
 We will be creating a simple test using Selenium Webdriver, with Jest as our test runner, and TypeScript (basically "typed" JavaScript) as our language. This should show you how well your skills you've picked up using NightwatchJS will transfer to other automation stacks!
 
-Steps 1-3 we will work on as a class. [Step 4](#-step-4) is where your self-guided assignment starts!
+Steps 1-4 we will work on as a class. [Step 5](#step-5) is where your self-guided assignment starts!
 
 ## Step 1
 
@@ -136,14 +136,14 @@ export default function getDriver(browser: string) { //we're taking `browser`, w
 
 </details>
 
-## Step 3
+## Step 4
 
 ### Instructions
 
 - You can run all your tests with the command `jest`, but that will also run the `intro.test.ts` file.
 - You can run JUST the new test by using the command `jest imdb` - it will find the test file that matches `imdb` and go from there!
 
-## Step 4
+## Step 5
 
 ### Summary
 
