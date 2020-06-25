@@ -141,6 +141,101 @@ export default function getDriver(browser: string) { //we're taking `browser`, w
 - You can run all your tests with the command `jest`, but that will also run the `intro.test.ts` file.
 - You can run JUST the new test by using the command `jest imdb` - it will find the test file that matches `imdb` and go from there!
 
+## Step 4
+
+### Summary
+
+Now it's time for you to shine! If you're wanting to start fresh from a working version of the code in Step 2, you can checkout the branch `solution`. If you want to see an example of Page Objects working in this stack (it's pretty cool!) take a look at the branch `pom-example`. But, it's time to move on to bigger things.
+
+### Instructions
+
+Your assignment will be to take this stack and add a new test file; you can make a new folder, or just add a new test to the test folder... `twitch.test.ts` where you will need to go to (twitch.tv)[https://www.twitch.tv/] and automate the following test:
+
+1. Open the most popular channel listed in "Recommended Channels" on the left of the page.
+2. Verify that the channel that opens is the channel you expected (it has the same title)
+
+If you want a bit more of a challenge, try the following test!
+
+1. Open the "Browse" page
+2. Filter by the tag "Let's Play"
+3. Sort by "Viewers (High to Low)"
+4. Launch the most popular "Let's Play" stream
+
+You can see example tests here - but keep in mind that they are not well commented, as these are intended for reference, and you are intended to complete these with much less guidance. It's also worth noting that the tests pass in Chrome, but fail in Firefox... Bonus points if you fix that in your version of the test! Their drivers handle loading and 'waiting' *slightly* differently from each other. Fun, huh?
+
+<details>
+
+<summary> <code> twitch.test.ts </code> </summary>
+
+```javascript
+import getDriver from './driverBuilder'
+import { WebDriver, By, until, WebElement } from 'selenium-webdriver'
+
+describe('Twitch TV', ()=>{
+    const driver:WebDriver = getDriver('chrome')
+    const popularChannels:By = By.css('[data-a-target="side-nav-title"]')
+    const menuOptionBrowse:By = By.css('a[data-test-selector="top-nav__browse-link"]')
+    const tagSearchBar:By = By.css('input[placeholder="Search Tags"]')
+    const letsPlayOption:By = By.css('[title="For streams with an emphasis on the production of video documenting the playthrough of a game"]')
+    const letsPlayTag:By = By.css('button[data-a-target="form-tag-Let\'s Play"]')
+    const currentSort:By = By.xpath("//button[@data-a-target='browse-sort-menu']/div/div/div[contains(@class, 'tw-flex')]")
+    const sortSelectToggle:By = By.className('tw-core-button-label--dropdown')
+    const sortViewerCount:By = By.css('[data-test-selector="directory-channel-sort-VIEWER_COUNT"]')
+    const firstChannel:By = By.xpath('//div[@data-target="directory-first-item"]//h3')
+    const channelInfo:By = By.className('channel-info-content')
+    const channelTitle:By = By.tagName('h1')
+
+    beforeEach(async()=>{
+        driver.get('https://www.twitch.tv')
+        await driver.wait(until.elementLocated(menuOptionBrowse))
+    })
+
+    it('logs the current most popular channel, and makes sure the title matches', async()=>{
+        await driver.wait(until.elementsLocated(popularChannels))
+        const channels: WebElement[] = await driver.findElements(popularChannels)
+        const channelName = await channels[0].getText()
+        await channels[0].click()
+        await driver.wait(until.elementLocated(channelInfo))
+        await setTimeout(()=>{}, 1000) //probably not the cleanest option, but it works :)
+        expect(channelName).toEqual(await (await driver.findElement(channelTitle)).getText())
+    })
+
+    it('launches the most popular "Let\'s Play" stream', async()=>{
+        await (await driver.findElement(menuOptionBrowse)).click()
+        await driver.wait(until.elementLocated(tagSearchBar))
+        await (await driver.findElement(tagSearchBar)).sendKeys("Let's Play")
+        await driver.wait(until.elementLocated(letsPlayOption))
+        await (await driver.findElement(letsPlayOption)).click()
+        await driver.wait(until.elementLocated(letsPlayTag))
+        await driver.wait(until.elementLocated(firstChannel))
+        await (await driver.findElement(sortSelectToggle)).click()
+        await driver.wait(until.elementLocated(sortViewerCount))
+        await (await driver.findElement(sortViewerCount)).click()
+        await driver.wait(until.elementTextContains(await driver.findElement(currentSort), "High to Low"))
+        await (await driver.findElement(firstChannel)).click()
+        await driver.wait(until.elementLocated(channelInfo))
+        console.log(`The most popular channel right now tagged "Let's Play" is: ${await (await driver.findElement(channelTitle)).getText()}`)
+    })
+
+    afterAll(async()=>{
+        driver.quit()
+    })
+})
+```
+
+</details>
+
+## Black Diamond Challenge
+
+For a real challenge, try this out:
+
+- Pick a popular site, like Twitch, Amazon, Buzzfeed, etc.
+- Choose a use case of the site (i.e. finding a streamer for a game, shopping for clothes, taking a poll)
+- Following the Page Object Model, create all the pages you'd need for that use case
+- Automate an E2E (end to end) test following that use case
+
+## Resources
+
 ## Contributions
 
 If you see a problem or a typo, please fork, make the necessary changes, and create a pull request so we can review your changes and merge them into the master repo and branch.
