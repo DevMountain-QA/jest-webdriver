@@ -22,6 +22,7 @@ Setup
 ### Instructions
 
 - run `jest`
+ - On a PC you may need to run the command as `npx jest`
 - You should see a simple test run, and a report that 1 out of 1 Tests passed.
 
 ## Step 3
